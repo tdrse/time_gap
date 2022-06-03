@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html onselectstart="return false" oncontextmenu="window.event.returnValue=false">
+<head>
+<meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,target-densitydpi=device-dpi">
+<title>TimeGap</title>
+</head>
+<body>
+<style>
+@font-face{
+font-family: tgfont;
+src: url('tg.woff2');
+}
+::placeholder {color:#ccc;}
+*{
+font-family:tgfont;
+outline:none;
+color:#fff;
+transition:all 0.3s;
+box-sizing:border-box;
+-webkit-text-size-adjust: none;
+-webkit-tap-highlight-color: rgba(0,0,0,0);
+-moz-user-select:none;
+-webkit-user-select:none;
+-ms-user-select:none;
+-khtml-user-select:none;
+-o-user-select:none;
+user-select:none;
+}
+a{text-decoration:none;}
+body{
+margin:0;
+width:100%;
+height:100%;
+background:#546467;
+}
+input,div{
+width:100%;
+text-align:center;
+max-width:500px;
+padding:15px;
+border:0px solid #555;
+background:#546467;
+word-break:break-all;
+opacity:0;
+}
+#num{
+font-size:30px;
+}
+</style>
+<script>
+window.onload=function(){ 
+setInterval(function(){
+var date=new Date().getTime();
+var url=window.location.href;
+var get=url.slice(url.indexOf('?') + 1);
+if(get && url.indexOf('?') !== -1){var inpty=get;document.getElementById("time").style.display='none';}else if(document.getElementById("time").value){var inpty=document.getElementById("time").value;}else{var inpty='2022-06-18 00:00:00';}
+var tim=new Date(inpty);
+var ogu=(tim - date);
+var tian=('' + (ogu/1000/60/60/24)).slice(0,('' + (ogu/1000/60/60/24)).indexOf('.'));
+var shin=('' + ((ogu/1000/60/60) - tian*24)).slice(0,('' + ((ogu/1000/60/60) - tian*24)).indexOf('.'));
+var feng=('' + ((ogu/1000/60) - shin*60 - tian*24*60)).slice(0,('' + ((ogu/1000/60) - shin*60 - tian*24*60)).indexOf('.'));
+var miao=('' + ((ogu/1000) - feng*60 - shin*60*60 - tian*24*60*60)).slice(0,('' + ((ogu/1000) - feng*60 - shin*60*60 - tian*24*60*60)).indexOf('.'));
+var haom=('' + (ogu - miao*1000 - feng*60*1000 - shin*60*60*1000 - tian*24*60*60*1000)).slice(0,('' + (ogu - miao*1000 - feng*60*1000 - shin*60*60*1000 - tian*24*60*60*1000)).indexOf('.'));
+document.getElementById('smea').innerHTML='Creator:tdrse';
+if(tim >= date){
+document.getElementById('date').innerHTML='TimeGap:<a id=num>' + tian + '</a>day<a id=num>' + shin + '</a>hour<a id=num>' + feng + '</a>minute<a id=num>' + miao + '</a>second<a id=num>'// + haom + '</a>millisecond';
+}else{
+document.getElementById('date').innerHTML='TimeGap:<a id=num>' + -tian + '</a>day<a id=num>' + -shin + '</a>hour<a id=num>' + -feng + '</a>minute<a id=num>' + -miao + '</a>second<a id=num>'// + -haom + '</a>millisecond';
+}
+//document.getElementById('date').innerHTML='TimeGap<a id=num>' + Math.abs(tian) + '</a>day<a id=num>' + Math.abs(shin) + '</a>hour<a id=num>' + Math.abs(feng) + '</a>minute<a id=num>' + Math.abs(miao) + '</a>second<a id=num>'// + Math.abs(haom) + '</a>millisecond';
+setTimeout(function(){document.getElementById("date").style.opacity='1';document.getElementById("time").style.opacity='1';document.getElementById("smea").style.opacity='1';},100);
+},0);
+}
+</script>
+<center>
+<div id="date"></div>
+<input type="text" placeholder="2022-06-18 00:00:00" id="time">
+<div id="smea"></div>
+</center>
+</body>
+</html>
